@@ -23,19 +23,54 @@ public:
 	{
 		this->y = y;
 	}
-	//Метод distance
-	double distance (Point tochka_b)
+
+	//		Constructors:
+	/*Point()
 	{
-		double x_distance = this->x - tochka_b.x;
-		double x_distance = this->y - tochka_b.y;
+		x = y = double(); //значения по умолчанию для double
+		cout << "Constructor:\t" << this << endl;
+	}
+	Point(double x)
+	{
+		this->x = x;
+		this->y = 0;
+		cout << "largConstructor:" << this << endl;
+	}*/
+	Point(double x = 0, double y = 0)
+	{
+		this->x = x;
+		this->y = y;
+		cout << "Constructor:" << this << endl;
+	}
+	Point(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyConstructor:" << this << endl;
+	}
+	~Point()
+	{
+ 		cout << "Destructor:\t" << this << endl;
+	}
+
+
+	//Метод distance
+	double distance (const Point& other)
+	{
+		double x_distance = this->x - other.x;
+		double y_distance = this->y - other.y;
 		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
 		return distance;
 	}
-	//ничего не получается(
-
+	void print() const
+	{
+		cout << "X = " << x << "\tY = " << y << endl;
+	}
 };
+//Чтобы передать параметры в функцию, и чтобы они не копировались, нужно передать их по ссылке. 
+//Чтобы функция не изменила переданные параметры, ссылку надо сделать константной
 
-double distance(Point A, Point B)
+double distance(const Point& A, const Point& B)
 {
 	double x_distance = A.get_x() - B.get_x();
 	double y_distance = A.get_y() - B.get_y();
@@ -44,6 +79,8 @@ double distance(Point A, Point B)
 }
 
 //#define STRUCT_POINT
+#define DISTANCE_CHEK
+//#define CONSTRUCTIONS_CHEK
 
 void main()
 {
@@ -63,16 +100,41 @@ void main()
 	cout << pA->x << "\t" << pA->y << endl;
 #endif // STRUCT_POINT
 
+#ifdef DISTANCE_CHEK
 	Point A;
 	A.set_x(2); //вызвали set методы
 	A.set_y(3);
 	cout << A.get_x() << "\t" << A.get_y() << endl;
 	Point B;
-	B.set_x(8);
-	B.set_y(6);
+	B.set_x(7);
+	B.set_y(8);
 	cout << B.get_x() << "\t" << B.get_y() << endl;
-	cout << "Расстояние от A до B: " << endl;
-	cout << A.distance (B) << endl;
-	cout << "Расстояние между А и В: " << endl;
-	cout << distance(A, B) << endl;
+	cout << "\n-------------------------------------------------\n"; // разделила строкой, чтобы было понятно, что к чему относится)
+	cout << "Расстояние от точки A до точки B: " << A.distance(B) << endl;
+	cout << "\n-------------------------------------------------\n";
+	cout << "Расстояние от точки B до точки A: " << B.distance(A) << endl;
+	cout << "\n-------------------------------------------------\n";
+	cout << "Расстояние между А и В: " << distance(A, B) << endl;
+	cout << "\n-------------------------------------------------\n";
+	cout << "Расстояние между B и A: " << distance(B, A) << endl;
+
+#endif // DISTANCE_CHEK
+
+#ifdef CONSTRUCTIONS_CHEK
+	Point A; //Default constructor
+	A.print();
+
+	Point B = 5;//Single-argument constructor
+	B.print();
+
+	Point C(8);//Single-argument constructor
+	C.print();
+
+	Point D(5, 8);// Parametrised constructor
+	D.print();
+
+	Point E = D;
+	E.print();//CopyConstructor  
+#endif // CONSTRACTIONS_CHEK
+
 }
