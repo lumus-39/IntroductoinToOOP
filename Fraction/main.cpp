@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 using namespace std;
 
 class Fraction
@@ -8,7 +8,7 @@ class Fraction
 	int denominator;
 
 public:
-	// get ìåòîäû
+	// get Ð¼ÐµÑ‚Ð¾Ð´Ñ‹
 	int get_integer()const
 	{
 		return integer;
@@ -21,7 +21,7 @@ public:
 	{
 		return denominator;
 	}
-	//set ìåòîäû
+	//set Ð¼ÐµÑ‚Ð¾Ð´Ñ‹
 	void set_integer(int integer)
 	{
 		this->integer = integer;
@@ -36,23 +36,23 @@ public:
 		this->denominator = denominator;
 	}
 
-	//Êîíñòðóêòîðû
+	//ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€Ñ‹
 
-	Fraction() // ïî óìîë÷àíèþ
+	Fraction() // Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ
 	{
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	Fraction(int integer)// äëÿ öåëîé ÷àñòè
+	Fraction(int integer)// Ð´Ð»Ñ Ñ†ÐµÐ»Ð¾Ð¹ Ñ‡Ð°ÑÑ‚Ð¸
 	{
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
 		cout << "largConstructor:\t" << this << endl;
 	}
-	Fraction(int numerator, int denominator) //äëÿ ÷èñëèòåëÿ è çíàìåíàòåëÿ
+	Fraction(int numerator, int denominator) //Ð´Ð»Ñ Ñ‡Ð¸ÑÐ»Ð¸Ñ‚ÐµÐ»Ñ Ð¸ Ð·Ð½Ð°Ð¼ÐµÐ½Ð°Ñ‚ÐµÐ»Ñ
 	{
 		this->integer = 0;
 		this->numerator = numerator;
@@ -66,7 +66,7 @@ public:
 		cout << "Destructor:\t" << this << endl;
 	}
 
-	//Îïåðàòîð (ïðèñâàèâàíèÿ)
+	//ÐžÐ¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€ (Ð¿Ñ€Ð¸ÑÐ²Ð°Ð¸Ð²Ð°Ð½Ð¸Ñ)
 	
 	Fraction& operator=(const Fraction& other)
 	{
@@ -78,7 +78,7 @@ public:
 			return *this;
 		}
 	}
-	// Ìåòîäû
+	// ÐœÐµÑ‚Ð¾Ð´Ñ‹
 	void print()const
 	{
 		if (integer)
@@ -92,16 +92,16 @@ public:
 void main()
 {
 	setlocale(LC_ALL, "");
-	Fraction À;
-	À.print();
+	Fraction Ð;
+	Ð.print();
 
 	Fraction B = 1;
 	B.print();
 
 	Fraction C(2, 3);
 	C.print();
-	//ÿ íå ïîíèìàþ, ÷òî ïèñàòü äàëüøå
-	//è ÷òî âîîáùå äîëæíî âûâîäèòñÿ(((
+	//Ñ Ð½Ðµ Ð¿Ð¾Ð½Ð¸Ð¼Ð°ÑŽ, Ñ‡Ñ‚Ð¾ Ð¿Ð¸ÑÐ°Ñ‚ÑŒ Ð´Ð°Ð»ÑŒÑˆÐµ
+	//Ð¸ Ñ‡Ñ‚Ð¾ Ð²Ð¾Ð¾Ð±Ñ‰Ðµ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ñ‚ÑÑ(((
 
 		
 }   
