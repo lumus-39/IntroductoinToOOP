@@ -50,7 +50,7 @@ public:
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
-		cout << "largConstructor:\t" << this << endl;
+		cout << "1argConstructor:\t" << this << endl;
 	}
 	Fraction(int numerator, int denominator) //для числителя и знаменателя
 	{
