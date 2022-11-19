@@ -59,25 +59,25 @@ public:
 		this->set_denominator(denominator);
 		cout << "Constructor:\t" << this << endl;
 	}
-	
 
-	~Fraction()
-	{
-		cout << "Destructor:\t" << this << endl;
-	}
+	//Оператор присваивания
 
-	//Оператор (присваивания)
-	
 	Fraction& operator=(const Fraction& other)
 	{
 		{
 			this->integer = other.integer;
 			this->numerator = other.numerator;
 			this->denominator = other.denominator;
-			cout << "CopyAssigment:\t" << this << endl;
+			cout << "CopyConstructor:\t" << this << endl;
 			return *this;
 		}
 	}
+	
+	~Fraction()
+	{
+		cout << "Destructor:\t" << this << endl;
+	}
+
 	// Методы
 	void print()const
 	{
