@@ -23,7 +23,6 @@ public:
 	{
 		this->y = y;
 	}
-
 	//		Constructors:
 	/*Point()
 	{
@@ -55,7 +54,7 @@ public:
 
 
 	//ћетод distance
-	double distance (const Point& other)
+	double distance (const Point& other)const
 	{
 		double x_distance = this->x - other.x;
 		double y_distance = this->y - other.y;
@@ -79,7 +78,7 @@ double distance(const Point& A, const Point& B)
 }
 
 //#define STRUCT_POINT
-#define DISTANCE_CHEK
+//#define DISTANCE_CHEK
 //#define CONSTRUCTIONS_CHEK
 
 void main()
@@ -109,7 +108,7 @@ void main()
 	B.set_x(7);
 	B.set_y(8);
 	cout << B.get_x() << "\t" << B.get_y() << endl;
-	cout << "\n-------------------------------------------------\n"; // разделила строкой, чтобы было пон€тно, что к чему относитс€)
+	cout << "\n-------------------------------------------------\n"; 
 	cout << "–ассто€ние от точки A до точки B: " << A.distance(B) << endl;
 	cout << "\n-------------------------------------------------\n";
 	cout << "–ассто€ние от точки B до точки A: " << B.distance(A) << endl;
