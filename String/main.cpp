@@ -65,7 +65,7 @@ public:
 	}
 };
 
-std::ostream& operator << (ostream& os, const String& obj)
+ostream& operator << (ostream& os, const String& obj)
 {
 	return os << obj.get_str();
 }
