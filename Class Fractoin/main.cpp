@@ -9,7 +9,7 @@ class Fraction;
 Fraction operator * (Fraction left, Fraction right);
 Fraction operator / (Fraction left, Fraction right);
 Fraction operator + (Fraction left, Fraction right);
-Fraction operator - (Fraction& left, Fraction right);
+Fraction operator - (Fraction left, Fraction right);
 
 
 class Fraction
@@ -48,13 +48,13 @@ public:
 	}
 
 	// Constructor
-	Fraction() 
+	Fraction()
 	{
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
 		cout.width(WIDTH);
-		cout << std::left <<"DefaultConstructor:" << this << endl;
+		cout << std::left << "DefaultConstructor:" << this << endl;
 	}
 	Fraction(int integer)// для целой части
 	{
@@ -92,7 +92,8 @@ public:
 			this->integer = other.integer;
 			this->numerator = other.numerator;
 			this->denominator = other.denominator;
-			cout << "AssignmentOperator:\t" << this << endl;
+			cout.width(WIDTH);
+			cout << std::left << "AssignmentOperator:" << this << endl;
 			return *this;
 		}
 	}
@@ -118,25 +119,33 @@ public:
 		integer++;
 		return *this;
 	}
+	Fraction operator++(int)
+	{
+		Fraction old = *this;
+		integer++;
+		return old;
+	}
 	Fraction& operator--()
 	{
 		integer--;
 		return *this;
 	}
-	//Не понимаю, как сделать, чтобы инкремент и декремент изменяли не только целую часть
 	
+
 	// Methods
-	void to_proper()
+	Fraction& to_proper()
 	{
 		integer += numerator / denominator;
 		numerator %= denominator;
-	} 
-	void to_improper()
+		return *this;
+	}
+	Fraction& to_improper()
 	{
 		numerator += integer * denominator;
 		integer = 0;
+		return *this;
 	}
-	
+
 	Fraction turn() const//меняем числитель и знаменатель местами для деления дроби
 	{
 		Fraction turn = *this;
@@ -146,10 +155,30 @@ public:
 		turn.denominator = buffer;
 		return turn;
 	}
-	/*void reduce()
+	Fraction& reduce()
 	{
-		
-	}*/
+		int more, less, rest;
+		if (numerator > denominator)
+		{
+			more = numerator;
+			less = denominator;
+		}
+		else
+		{
+			less = numerator;
+			more = denominator;
+		}
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+		} while (rest);
+		int GCD = more; //GCD - Greatest Coomon Division
+		numerator /= GCD;
+		denominator /= GCD;
+		return *this;
+	}
 	void print()const
 	{
 		if (integer)
@@ -167,12 +196,12 @@ Fraction operator*(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
-	Fraction result
+	return Fraction
 	(
-		left.get_numerator()*right.get_numerator(),
-		left.get_denominator()*right.get_denominator()
-	);
-	return result;
+		left.get_numerator() * right.get_numerator(),
+		left.get_denominator() * right.get_denominator()
+	).to_proper();
+
 }
 Fraction operator/(Fraction left, Fraction right)
 {
@@ -182,9 +211,9 @@ Fraction operator+(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
-	return Fraction 
+	return Fraction
 	(left.get_numerator() * right.get_denominator() + right.get_numerator() * left.get_denominator(),
-	left.get_denominator() * right.get_denominator()
+		left.get_denominator() * right.get_denominator()
 	).to_proper();
 }
 Fraction operator-(Fraction left, Fraction right)
@@ -238,47 +267,80 @@ bool operator <= (const Fraction& left, const Fraction& right)
 {
 	return left < right || left == right;
 }
-
-//#define CONSCRUCTORS_CHECK
-
-void main()
+ostream& operator << (ostream& os, const Fraction& obj)
 {
-	setlocale(LC_ALL, "");
+	if (obj.get_integer())os << obj.get_integer() << " ";
+	if (obj.get_numerator())
+	{
+		os << obj.get_numerator() << "/" << obj.get_denominator();
+	}
+	else os << 0;
+	return os;
+}
+istream& operator >> (istream& is, Fraction& obj)
+{
+	int integer; cin >> integer;
+	int numerator; cin >> numerator;
+	int denominator; cin >> denominator;
+	obj.set_integer(integer);
+	obj.set_numerator(numerator);
+	obj.set_denominator(denominator);
+	return is;
+}
+
+	//#define CONSCRUCTORS_CHECK
+	//#define ARITHMETICAL_OPERATORS
+	//#define INCREMENT_CHECK
+	void main()
+	{
+		setlocale(LC_ALL, "");
 
 #ifdef CONSCRUCTORS_CHECK
-	Fraction A; //Default constructor
-	A.print();
+		Fraction A; //Default constructor
+		A.print();
 
-	Fraction B = 5; //Single-argument constructor
-	B.print();
+		Fraction B = 5; //Single-argument constructor
+		B.print();
 
-	Fraction C(1, 2);
-	C.print();
+		Fraction C(1, 2);
+		C.print();
 
-	Fraction D(2, 3, 4);
-	D.print();
+		Fraction D(2, 3, 4);
+		D.print();
 
-	D.to_improper();
-	D.print();
+		D.to_improper();
+		D.print();
 
-	D.to_proper();
-	D.print();
+		D.to_proper();
+		D.print();
 #endif //CONSCRUCTORS_CHECK
 
-	Fraction A(2, 3, 4);
-	A.print();
-	Fraction B(3, 4, 5);
-	B.print();
-	Fraction C = A * B;
-	C.print();
-	(A/B).print();
-	A *= B;
-	A.print();
-	/*for (Fraction i(1, 2); i.get_integer() < 6; ++i)
-	{
-		i.print();
-	}*/
+#ifdef ARITHMETICAL_OPERATORS
+		Fraction A(2, 3, 4);
+		A.print();
+		Fraction B(3, 4, 5);
+		B.print();
+		Fraction C = A * B;
+		C.print();
+		(A / B).print();
+		A *= B;
+		A.print();
+#endif // ARITHMETICAL_OPERATORS
 
-	
-	cout << (Fraction(1, 2) != Fraction(2, 4)) << endl;
-}
+#ifdef INCREMENT_CHECK
+
+		for (Fraction i(1, 2); i.get_integer() < 10; i++)
+		{
+			i.print();
+		}
+
+		cout << (Fraction(1, 2) != Fraction(2, 4)) << endl;
+
+
+#endif // INCREMENT_CHECK
+
+		Fraction A(2, 3, 4);
+		cout << A << endl;
+	}
+	//Fraction A;
+	//cout << "Введите простую дробь: "; cin >> A;
