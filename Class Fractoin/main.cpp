@@ -288,6 +288,7 @@ istream& operator >> (istream& is, Fraction& obj)
 	return is;
 }
 
+
 	//#define CONSCRUCTORS_CHECK
 	//#define ARITHMETICAL_OPERATORS
 	//#define INCREMENT_CHECK
