@@ -16,10 +16,10 @@ public:
 	{
 		return length;
 	}
-	String(int length = 15)
+	String(int length)
 	{
 		this->length = length;
-		this->str = new char[length];
+		this->str = new char[length + 1];
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
 	String(const char* str)

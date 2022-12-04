@@ -1,9 +1,11 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 using namespace std;
 using std::cout;
 using std::cin;
 
 #define WIDTH 27
+//#define delimeter "\n_______________________________________________n\"
 
 class Fraction;
 Fraction operator * (Fraction left, Fraction right);
@@ -86,6 +88,13 @@ public:
 		cout << std::left << "Destructor:" << this << endl;
 	}
 
+	Fraction& operator()(int integer, int numerator, int denominator)
+	{
+		set_integer(integer);
+		set_numerator(numerator);
+		set_denominator(denominator);
+		return *this;
+	}
 	Fraction& operator = (const Fraction& other)//оператор присваивани€
 	{
 		{
@@ -129,6 +138,15 @@ public:
 	{
 		integer--;
 		return *this;
+	}
+	// Type-cast operator
+	explicit operator int()const
+	{
+		return integer;
+	}
+	explicit operator double()const
+	{
+		return integer + (double)numerator / denominator;
 	}
 	
 
@@ -274,17 +292,47 @@ ostream& operator << (ostream& os, const Fraction& obj)
 	{
 		os << obj.get_numerator() << "/" << obj.get_denominator();
 	}
-	else os << 0;
+	else if(obj.get_integer() == 0)os << 0;
 	return os;
 }
 istream& operator >> (istream& is, Fraction& obj)
 {
-	int integer; cin >> integer;
-	int numerator; cin >> numerator;
-	int denominator; cin >> denominator;
-	obj.set_integer(integer);
+	//int integer, numerator, denominator;
+	//is >> integer >> numerator >> denominator;
+	/*obj.set_integer(integer);
 	obj.set_numerator(numerator);
-	obj.set_denominator(denominator);
+	obj.set_denominator(denominator);*/
+	//obj(integer, numerator, denominator);
+	const int SIZE = 256;
+	char buffer[SIZE] = {};
+	//is >> buffer; //cin сохран€ет данные в переменной до пробела
+	//дл€ того, чтобы ввести строку с пробелами нужно использовать cin.getline()
+	is.getline(buffer, SIZE);
+	int number[3] = {}; // в этом массиве будут хранитс€ числовые значени€
+	//полученные из строки
+	char delimeters[] = " /()";
+	int n = 0;
+	for (char* pch = strtok(buffer, delimeters); pch; pch = strtok(NULL, delimeters))
+	{
+		number[n++] = std::atoi(pch);
+	}
+	//for (int i = 0; i < n; i++) cout << number[i] << "\t";
+	//cout << endl;
+	//cout << buffer << endl;
+	
+	obj = Fraction();
+	switch (n)
+	{
+	case 1: obj.set_integer(number[0]); break;
+	case 2:
+		obj.set_numerator(number[0]);
+		obj.set_denominator(number[1]);
+		break;
+	case 3:
+		obj.set_integer(number[0]);
+		obj.set_numerator(number[1]);
+		obj.set_denominator(number[2]);
+	}
 	return is;
 }
 
@@ -292,6 +340,9 @@ istream& operator >> (istream& is, Fraction& obj)
 	//#define CONSCRUCTORS_CHECK
 	//#define ARITHMETICAL_OPERATORS
 	//#define INCREMENT_CHECK
+    //#define ISREAM_OPERATOR_CHECK
+    //#define TYPE_CONVERSION_BASICS
+    //#define CONVERSION_FROM_OTHER_TO_CLASS
 	void main()
 	{
 		setlocale(LC_ALL, "");
@@ -340,8 +391,43 @@ istream& operator >> (istream& is, Fraction& obj)
 
 #endif // INCREMENT_CHECK
 
+		//Fraction A(2, 3, 4);
+		//cout << A << endl;
+#ifdef ISREAM_OPERATOR_CHECK
+
+		Fraction A;
+		cout << "¬ведите простую дробь: "; cin >> A;
+		cout << delimeter << endl;
+		cout << A << endl;
+		cout << delimeter << endl;
+#endif // ISREAM_OPERATOR_CHECK
+
+#ifdef TYPE_CONVERSION_BASICS
+		cout << (double)7 / 2 << endl;
+
+		int a = 2;
+		double b = 3;
+		int c = b;
+		int d = round(4.49);
+		cout << d << endl;
+#endif // TYPE_CONVERSION_BASICS
+
+#ifdef CONVERSION_FROM_OTHER_TO_CLASS		
+		int a = 2;
+		Fraction A = 5; //Single-argument constructor
+		cout << A << endl;
+
+		Fraction B;//Default constructor
+		B = 8;
+		cout << B << endl;//Assignment constructor  
+#endif // CONVERSION_FROM_OTHER_TO_CLASS
+
 		Fraction A(2, 3, 4);
 		cout << A << endl;
+
+		int a = (int)A;
+		cout << a << endl;
+
+		double b = (double)A;
+			cout << b << endl;
 	}
-	//Fraction A;
-	//cout << "¬ведите простую дробь: "; cin >> A;
